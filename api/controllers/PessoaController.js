@@ -30,4 +30,26 @@ class PessoaController {
     }
   }
 
+  static async atualizarPessoa(req, res) {
+    const info = req.body;
+    const id = req.params.id;
+    try {
+      await db.Pessoas.update(info, { where: { id: Number(id) } });
+      return res.status(200).send({ message: "Dados atualizados" });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  static async deletarPessoa(req, res) {
+    const id = req.params.id;
+    try {
+      await db.Pessoas.destroy({ where: { id: Number(id) } });
+      return res.status(200).send({ message: `Pessoa ${id} deletada.` });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+}
+
 module.exports = PessoaController;
