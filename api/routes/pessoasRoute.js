@@ -5,5 +5,6 @@ const router = Router();
 
 router.get("/pessoas", PessoaController.listarPessoas);
 router.get("/pessoas/:id", PessoaController.listarPessoasPorId);
+router.post("/pessoas", PessoaController.cadastrarPessoa);
 
 module.exports = router;
