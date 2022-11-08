@@ -3,7 +3,7 @@ const db = require("../models");
 class TurmaController {
   static async listarTurmas(req, res) {
     try {
-      const turmas = db.Turmas.findAll();
+      const turmas = await db.Turmas.findAll();
       res.status(200).json(turmas);
     } catch (error) {
       res.status(500).json(error.message);
@@ -12,7 +12,7 @@ class TurmaController {
   static async listarTurmaPorId(req, res) {
     const id = req.params.id;
     try {
-      const turma = db.Turmas.findOne({ where: { id: Number(id) } });
+      const turma = await db.Turmas.findOne({ where: { id: Number(id) } });
       res.status(200).json(turma);
     } catch (error) {
       res.status(500).json(error.message);
