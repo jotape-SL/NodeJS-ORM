@@ -9,7 +9,7 @@ class TurmaController {
       res.status(500).json(error.message);
     }
   }
-  static async listarTurmasPorId(req, res) {
+  static async listarTurmaPorId(req, res) {
     const id = req.params.id;
     try {
       const turma = db.Turmas.findOne({ where: { id: Number(id) } });

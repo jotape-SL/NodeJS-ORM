@@ -9,7 +9,7 @@ class NivelController {
       return res.status(500).json(error.message);
     }
   }
-  static async listarNiveisPorId(req, res) {
+  static async listarNivelPorId(req, res) {
     const id = req.params.id;
     try {
       const nivel = await db.Niveis.findOne({ where: { id: Number(id) } });
