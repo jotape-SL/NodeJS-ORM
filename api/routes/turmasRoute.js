@@ -3,10 +3,10 @@ const TurmaController = require("../controllers/TurmaController.js");
 
 const router = Router();
 
-router.get("/turma", TurmaController.listarTurmas);
-router.get("/turma/:id", TurmaController.listarTurmaPorId);
-router.post("/turma", TurmaController.cadastrarTurma);
-router.put("/turma/:id", TurmaController.atualizarTurma);
-router.delete("/turma/:id", TurmaController.deletarTurma);
+router.get("/turmas", TurmaController.listarTurmas);
+router.get("/turmas/:id", TurmaController.listarTurmaPorId);
+router.post("/turmas", TurmaController.cadastrarTurma);
+router.put("/turmas/:id", TurmaController.atualizarTurma);
+router.delete("/turmas/:id", TurmaController.deletarTurma);
 
 module.exports = router;

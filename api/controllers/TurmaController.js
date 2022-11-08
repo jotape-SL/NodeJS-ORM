@@ -23,7 +23,7 @@ class TurmaController {
     const turma = req.body;
     try {
       const turmaCriada = await db.Turmas.create(turma);
-      return res.status(200).json(turmaCriada);
+      return res.status(201).json(turmaCriada);
     } catch (error) {
       return res.status(500).send(error.message);
     }
