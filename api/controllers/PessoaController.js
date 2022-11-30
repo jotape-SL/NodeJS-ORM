@@ -93,11 +93,9 @@ class PessoaController {
       await db.Matriculas.destroy({
         where: { id: Number(matriculaId) },
       });
-      return res
-        .status(200)
-        .send({
-          message: `Matricula ${matriculaId} do estudante ${estudanteId} deletada.`,
-        });
+      return res.status(200).send({
+        message: `Matricula ${matriculaId} do estudante ${estudanteId} deletada.`,
+      });
     } catch (error) {
       return res.status(500).send(error.message);
     }
