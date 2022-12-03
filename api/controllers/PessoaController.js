@@ -9,6 +9,7 @@ class PessoaController {
       return res.status(500).json(error.message);
     }
   }
+  
   static async listarTodasPessoas(req, res) {
     try {
       const todasPessoas = await db.Pessoas.scope("todos").findAll();
@@ -113,6 +114,19 @@ class PessoaController {
       });
       return res.status(200).send({
         message: `Matricula ${matriculaId} do estudante ${estudanteId} deletada.`,
+      });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  static async listarMatriculaPorId(req, res) {
+    const { estudanteId} = req.params;
+    try {
+      const pessoa = await db.Pessoas.findOne({where:{id:Number(estudanteId)}})
+      const matriculas = await pessoa.getAulasMatriculadas()
+      return res.status(200).send({
+        message: `${matriculas}`,
       });
     } catch (error) {
       return res.status(500).send(error.message);
