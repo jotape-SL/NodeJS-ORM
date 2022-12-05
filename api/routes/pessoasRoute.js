@@ -11,6 +11,15 @@ router
     "/pessoas/:estudanteId/matricula/:matriculaId",
     PessoaController.listarMatriculaPorId
   )
+  .get(
+    "/pessoas/:estudanteId/matricula",
+    PessoaController.listarMatriculaPorId
+  )
+  .get(
+    "/pessoas/matricula/:turmaId/confirmadas",
+    PessoaController.listarMatriculaPorTurma 
+  )
+  .get("/pessoas/matriculas/lotada", PessoaController.listarTurmaslotadas)
   .post("/pessoas", PessoaController.cadastrarPessoa)
   .post("/pessoas/:estudanteId/matricula", PessoaController.criarMatricula)
   .put("/pessoas/:id", PessoaController.atualizarPessoa)

@@ -1,9 +1,16 @@
 const db = require("../models");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op
 
 class TurmaController {
   static async listarTurmas(req, res) {
+    const {from, until} = req.query
+    const where = {}
+    from || until ? where.data_inicio = {} : null
+    from ? where.data_inicio[Op.gte] = from : null
+    until? where.data_inicio[Op.lte] = until : null
     try {
-      const turmas = await db.Turmas.findAll();
+      const turmas = await db.Turmas.findAll({where});
       res.status(200).json(turmas);
     } catch (error) {
       res.status(500).json(error.message);

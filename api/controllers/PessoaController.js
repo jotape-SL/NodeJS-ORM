@@ -1,4 +1,5 @@
 const db = require("../models");
+const Sequelize = require('sequelize');
 
 class PessoaController {
   static async listarPessoasAtivas(req, res) {
@@ -9,6 +10,7 @@ class PessoaController {
       return res.status(500).json(error.message);
     }
   }
+  
   static async listarTodasPessoas(req, res) {
     try {
       const todasPessoas = await db.Pessoas.scope("todos").findAll();
@@ -114,6 +116,56 @@ class PessoaController {
       return res.status(200).send({
         message: `Matricula ${matriculaId} do estudante ${estudanteId} deletada.`,
       });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  static async listarMatriculaPorId(req, res) {
+    const { estudanteId} = req.params;
+    try {
+      const pessoa = await db.Pessoas.findOne({where:{id:Number(estudanteId)}})
+      const matriculas = await pessoa.getAulasMatriculadas()
+      return res.status(200).send({
+        message: `${matriculas}`,
+      });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+  
+  static async listarMatriculaPorTurma(req, res) {
+    const { turmaId} = req.params;
+    try {
+      const matriculas = await db.Matriculas.findAndCountAll({
+        where:{
+          turma_id: Number(turmaId),
+          status: "confirmado"
+        },
+        limit: 20,
+        order: [["estudante_id", "DESC"]]
+      })
+      return res.status(200).send({
+        message: `Possuem ${matriculas.count} matriculas na Turma de id ${turmaId}`,
+      });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
+
+  static async listarTurmaslotadas(req, res) {
+    const { turmaId} = req.params;
+    const lotacaoTurma = 2;
+    try {
+      const turmasLotadas = await db.Matriculas.findAndCountAll({
+        where:{
+          status:"confirmado"
+        },
+        attributes:["turma_id"],
+        group:["turma_id"],
+        having: Sequelize.literal(`count(turma_id) >= ${lotacaoTurma}`)
+      })
+      return res.status(200).json(turmasLotadas)
     } catch (error) {
       return res.status(500).send(error.message);
     }
