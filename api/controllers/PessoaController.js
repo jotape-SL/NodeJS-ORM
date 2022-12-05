@@ -132,6 +132,25 @@ class PessoaController {
       return res.status(500).send(error.message);
     }
   }
+  
+  static async listarMatriculaPorTurma(req, res) {
+    const { turmaId} = req.params;
+    try {
+      const matriculas = await db.Matriculas.findAndCountAll({
+        where:{
+          turma_id: Number(turmaId),
+          status: "confirmado"
+        },
+        limit: 20,
+        order: [["estudante_id", "DESC"]]
+      })
+      return res.status(200).send({
+        message: `Possuem ${matriculas.count} matriculas na Turma de id ${turmaId}`,
+      });
+    } catch (error) {
+      return res.status(500).send(error.message);
+    }
+  }
 }
 
 module.exports = PessoaController;
